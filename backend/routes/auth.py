@@ -1,13 +1,18 @@
 import hashlib
 import hmac
+import os
 import secrets
 from datetime import datetime, timezone, timedelta
+
+from dotenv import load_dotenv
 
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, EmailStr
 from jose import jwt
 
 from database import get_connection
+
+load_dotenv()
 
 
 router = APIRouter(
@@ -20,7 +25,10 @@ router = APIRouter(
 # JWT CONFIGURATION
 # =========================================================
 
-SECRET_KEY = "cyclesync-development-secret-change-before-deployment"
+SECRET_KEY = os.getenv(
+    "CYCLESYNC_SECRET_KEY",
+    "cyclesync-development-secret-change-before-deployment",
+)
 
 ALGORITHM = "HS256"
 
